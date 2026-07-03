@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>On Air — Royal Edition</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Montserrat:wght@300;400;500;600&family=Space+Mono&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-deep: #080707;          /* Pure dark background */
+    --bg-panel: #110e0e;         /* Slightly lifted panel background */
+    --bg-raised: #1a1515;        /* Input and inner panel background */
+    --border-color: #3b2c2c;     /* Dark muted red/brown border */
+    
+    --text-cream: #F4F0E6;       /* Primary text */
+    --text-muted: #B8AFA0;       /* Secondary text */
+    
+    --royal-red: #9B1B30;        /* Main accent */
+    --royal-red-hover: #7A1425;  /* Button hover state */
+    --royal-red-glow: rgba(155, 27, 48, 0.4);
+    
+    --gold-accent: #C5A059;      /* Subtle accents */
+    
+    --font-serif: 'Cinzel', serif;
+    --font-sans: 'Montserrat', sans-serif;
+    --font-mono: 'Space Mono', monospace;
+  }
+
+  * { box-sizing: border-box; }
+  
+  body {
+    margin: 0;
+    background: var(--bg-deep);
+    color: var(--text-cream);
+    font-family: var(--font-sans);
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 40px 24px 100px; }
+
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 32px;
+    flex-wrap: wrap;
+    gap: 16px;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 20px;
+  }
+  
+  .brand-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  
+  .brand .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--border-color);
+    display: inline-block;
+    transition: all 0.4s ease;
+  }
+  
+  .brand .dot.armed {
+    background: var(--royal-red);
+    box-shadow: 0 0 10px var(--royal-red);
+  }
+  
+  h1 {
+    font-family: var(--font-serif);
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    margin: 0;
+    color: var(--text-cream);
+    text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+  }
+
+  .creator-line {
+    font-family: var(--font-sans);
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin: 0 0 0 20px;
+  }
+  .creator-line strong {
+    color: var(--gold-accent);
+    font-family: var(--font-serif);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 2px;
+  }
+
+  .clock {
+    font-family: var(--font-mono);
+    font-size: 16px;
+    color: var(--gold-accent);
+    letter-spacing: 1px;
+    background: var(--bg-panel);
+    padding: 8px 16px;
+    border: 1px solid var(--border-color);
+    border-radius: 2px;
+  }
+
+  .arm-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: linear-gradient(90deg, var(--bg-panel), var(--bg-raised));
+    border: 1px solid var(--border-color);
+    border-left: 4px solid var(--royal-red);
+    border-radius: 2px;
+    padding: 16px 20px;
+    margin-bottom: 32px;
+    gap: 16px;
+    flex-wrap: wrap;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  }
+  .arm-bar p { margin: 0; font-size: 13px; color: var(--text-muted); line-height: 1.6; max-width: 600px; }
+  .arm-bar strong { color: var(--text-cream); font-weight: 600; }
+
+  button {
+    font-family: var(--font-sans);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 2px;
+    padding: 12px 20px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  button:active { transform: translateY(1px); }
+  
+  .btn-primary { 
+    background: var(--royal-red); 
+    color: var(--text-cream); 
+    box-shadow: 0 4px 10px rgba(155, 27, 48, 0.2);
+  }
+  .btn-primary:hover { background: var(--royal-red-hover); }
+  
+  .btn-outline { 
+    background: transparent; 
+    border: 1px solid var(--text-muted); 
+    color: var(--text-cream); 
+  }
+  .btn-outline:hover { border-color: var(--text-cream); background: rgba(244, 240, 230, 0.05); }
+  
+  .btn-destructive { 
+    background: transparent; 
+    border: 1px solid var(--border-color); 
+    color: var(--text-muted); 
+  }
+  .btn-destructive:hover { 
+    border-color: var(--royal-red); 
+    color: var(--royal-red); 
+    background: rgba(155, 27, 48, 0.05);
+  }
+  
+  .btn-sm { padding: 8px 14px; font-size: 11px; }
+
+  .toast {
+    position: fixed;
+    top: 24px;
+    right: 24px;
+    background: var(--bg-raised);
+    border: 1px solid var(--royal-red);
+    color: var(--text-cream);
+    padding: 16px 24px;
+    border-radius: 2px;
+    font-family: var(--font-sans);
+    font-size: 13px;
+    font-weight: 500;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+    transform: translateX(150%);
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    z-index: 9999;
+    border-left: 4px solid var(--royal-red);
+  }
+  .toast.show { transform: translateX(0); }
+
+  .timeline-section { margin-bottom: 40px; }
+  .timeline-label { 
+    font-family: var(--font-serif); 
+    font-size: 13px; 
+    color: var(--gold-accent); 
+    letter-spacing: 2px; 
+    margin-bottom: 12px;
+  }
+  
+  .timeline {
+    position: relative;
+    height: 80px;
+    background: var(--bg-panel);
+    border: 1px solid var(--border-color);
+    border-radius: 2px;
+    overflow: hidden;
+    box-shadow: inset 0 2px 10px rgba(0,0,0,0.5);
+  }
+  .tick { position: absolute; top: 0; bottom: 0; width: 1px; background: var(--border-color); }
+  .tick-label { 
+    position: absolute; 
+    top: 6px; 
+    font-family: var(--font-mono); 
+    font-size: 10px; 
+    color: var(--text-muted); 
+    transform: translateX(4px); 
+  }
+  .slot {
+    position: absolute; top: 28px; height: 32px; border-radius: 2px;
+    background: linear-gradient(180deg, rgba(244, 240, 230, 0.15), rgba(244, 240, 230, 0.05));
+    border: 1px solid rgba(244, 240, 230, 0.3);
+    min-width: 6px; cursor: default;
+    transition: all 0.3s ease;
+  }
+  .slot.fired {
+    background: linear-gradient(180deg, rgba(155, 27, 48, 0.6), rgba(155, 27, 48, 0.2));
+    border-color: var(--royal-red);
+    box-shadow: 0 0 10px var(--royal-red-glow);
+  }
+  .slot .slot-tip {
+    position: absolute; bottom: 100%; left: 0; margin-bottom: 8px;
+    background: var(--bg-raised); border: 1px solid var(--border-color); border-radius: 2px;
+    padding: 8px 12px; font-size: 11px; font-family: var(--font-mono); white-space: nowrap;
+    color: var(--text-cream); box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+    opacity: 0; pointer-events: none; transition: opacity 0.2s; z-index: 10;
+  }
+  .slot:hover .slot-tip { opacity: 1; }
+  .now-line {
+    position: absolute; top: 0; bottom: 0; width: 2px; background: var(--gold-accent);
+    box-shadow: 0 0 8px var(--gold-accent); z-index: 5;
+  }
+  .now-line::before {
+    content: ''; position: absolute; top: -3px; left: -4px; width: 10px; height: 10px;
+    border-radius: 50%; background: var(--gold-accent);
+  }
+
+  .panel { 
+    background: var(--bg-panel); 
+    border: 1px solid var(--border-color); 
+    border-radius: 2px; 
+    padding: 24px; 
+    margin-bottom: 24px; 
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  }
+  .panel h2 { 
+    font-family: var(--font-serif); 
+    font-size: 16px; 
+    letter-spacing: 2px; 
+    color: var(--text-cream); 
+    margin: 0 0 20px; 
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 12px;
+  }
+
+  .field-row { display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 20px; }
+  .field { flex: 1; min-width: 160px; display: flex; flex-direction: column; gap: 8px; }
+  
+  label { 
+    font-size: 10px; 
+    color: var(--text-muted); 
+    text-transform: uppercase; 
+    letter-spacing: 1px; 
+    font-weight: 600;
+  }
+  
+  input[type=text], input[type=time] {
+    background: var(--bg-raised); 
+    border: 1px solid var(--border-color); 
+    border-radius: 2px;
+    padding: 12px 14px; 
+    color: var(--text-cream); 
+    font-family: var(--font-sans); 
+    font-size: 14px;
+    transition: border-color 0.2s;
+  }
+  input[type=time] { font-family: var(--font-mono); }
+  input[type=text]:focus, input[type=time]:focus { 
+    outline: none; 
+    border-color: var(--royal-red); 
+    box-shadow: 0 0 0 1px var(--royal-red); 
+  }
+
+  .days { display: flex; gap: 8px; flex-wrap: wrap; }
+  .day-chip {
+    font-family: var(--font-mono); font-size: 11px; padding: 10px 14px; border-radius: 2px;
+    border: 1px solid var(--border-color); color: var(--text-muted); cursor: pointer; user-select: none;
+    transition: all 0.2s; background: var(--bg-raised);
+  }
+  .day-chip.active { 
+    border-color: var(--royal-red); 
+    color: var(--text-cream); 
+    background: var(--royal-red); 
+    box-shadow: 0 2px 8px var(--royal-red-glow);
+  }
+
+  .file-drop {
+    border: 1px dashed var(--border-color); border-radius: 2px; padding: 20px; text-align: center;
+    color: var(--text-muted); font-size: 13px; cursor: pointer; background: var(--bg-raised);
+    transition: all 0.2s;
+  }
+  .file-drop:hover { border-color: var(--royal-red); color: var(--text-cream); background: rgba(155,27,48,0.05); }
+  .file-list { margin-top: 12px; font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); max-height: 80px; overflow-y: auto; line-height: 1.6;}
+
+  .cards { display: flex; flex-direction: column; gap: 16px; }
+  .card {
+    background: var(--bg-raised); border: 1px solid var(--border-color); border-radius: 2px;
+    padding: 20px; display: flex; align-items: flex-start; justify-content: space-between; gap: 20px; flex-wrap: wrap;
+    transition: border-color 0.3s, box-shadow 0.3s;
+  }
+  .card.playing { 
+    border-color: var(--royal-red); 
+    box-shadow: 0 0 15px rgba(155,27,48,0.15); 
+    background: linear-gradient(135deg, var(--bg-raised), #1f1416);
+  }
+  .card-info { display: flex; flex-direction: column; gap: 10px; min-width: 220px; flex: 1; }
+  .card-name { font-weight: 600; font-size: 16px; color: var(--text-cream); font-family: var(--font-serif); letter-spacing: 1px;}
+  .card-meta { font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); display: flex; gap: 10px; flex-wrap: wrap; }
+  
+  .badge { background: var(--bg-panel); border: 1px solid var(--border-color); border-radius: 2px; padding: 4px 8px; }
+  .badge.on-air { 
+    background: var(--royal-red); 
+    border-color: var(--royal-red); 
+    color: var(--text-cream); 
+    font-weight: bold;
+    box-shadow: 0 0 8px var(--royal-red-glow);
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.7; }
+    100% { opacity: 1; }
+  }
+
+  .card-actions { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+
+  .track-list {
+    flex-basis: 100%; display: flex; flex-direction: column; gap: 6px;
+    margin-top: 12px; max-height: 180px; overflow-y: auto; padding-right: 8px;
+  }
+  .track-row {
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    background: var(--bg-panel); border: 1px solid var(--border-color); border-radius: 2px;
+    padding: 8px 12px; font-family: var(--font-mono); font-size: 11px; color: var(--text-muted);
+  }
+  .track-row .track-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--text-cream);}
+  .track-row .remove-track-btn {
+    flex-shrink: 0; background: transparent; border: none; color: var(--text-muted);
+    font-size: 11px; text-transform: uppercase; letter-spacing: 1px; cursor: pointer;
+    transition: color 0.2s;
+  }
+  .track-row .remove-track-btn:hover { color: var(--royal-red); }
+  
+  .track-empty { font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); flex-basis: 100%; margin-top: 12px; font-style: italic;}
+  .add-songs-btn { border-style: dashed; }
+
+  .empty { text-align: center; color: var(--text-muted); font-size: 13px; padding: 60px 20px; font-family: var(--font-mono); border: 1px dashed var(--border-color); }
+
+  .now-playing-bar {
+    position: fixed; left: 0; right: 0; bottom: 0; background: var(--bg-panel);
+    border-top: 1px solid var(--royal-red); padding: 16px 32px; display: none;
+    align-items: center; gap: 20px; font-family: var(--font-mono); font-size: 13px;
+    box-shadow: 0 -4px 20px rgba(0,0,0,0.5); z-index: 100;
+  }
+  .now-playing-bar.show { display: flex; }
+  .now-playing-bar .track { color: var(--text-cream); flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .playing-icon { color: var(--royal-red); font-size: 16px; animation: pulse 1.5s infinite; }
+
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg-panel); }
+  ::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+</style>
+</head>
+<body>
+
+<div id="toast" class="toast">Message goes here</div>
+
+<div class="wrap">
+  <header>
+    <div class="brand-group">
+      <div class="brand">
+        <span class="dot" id="armDot"></span>
+        <h1>ON AIR</h1>
+      </div>
+      <p class="creator-line">Created By <strong>Alniyaz</strong></p>
+    </div>
+    <div class="clock" id="clockDisplay">--:--:--</div>
+  </header>
+
+  <div class="arm-bar">
+    <p><strong>Browsers block silent autoplay.</strong> Click Arm Scheduler once — after that this tab will silently monitor the time and start your playlists automatically.</p>
+    <button class="btn-primary" id="armBtn">Arm Scheduler</button>
+  </div>
+
+  <div class="timeline-section">
+    <div class="timeline-label">24-Hour Schedule</div>
+    <div class="timeline" id="timeline"></div>
+  </div>
+
+  <div class="panel">
+    <h2>Configure Playlist</h2>
+    <div class="field-row">
+      <div class="field" style="flex:2;">
+        <label>Playlist Name</label>
+        <input type="text" id="plName" placeholder="e.g., Evening Symphony">
+      </div>
+      <div class="field">
+        <label>Start Time</label>
+        <input type="time" id="plTime" value="19:00">
+      </div>
+    </div>
+    <div class="field-row">
+      <div class="field" style="flex:1 0 100%;">
+        <label>Active Days</label>
+        <div class="days" id="dayChips"></div>
+      </div>
+    </div>
+    <div class="field-row" id="fileFieldRow">
+      <div class="field" style="flex:1 0 100%;">
+        <label>Audio Files</label>
+        <div class="file-drop" id="fileDrop">Click to browse and stage audio files (MP3, WAV, FLAC...)</div>
+        <input type="file" id="fileInput" accept="audio/*" multiple style="display:none;">
+        <div class="file-list" id="fileList"></div>
+      </div>
+    </div>
+    <div class="field-row" id="editHint" style="display:none;">
+      <div class="field" style="flex:1 0 100%;">
+        <label style="color:var(--gold-accent);">Metadata editing mode. Manage individual tracks directly on the playlist card below.</label>
+      </div>
+    </div>
+    <div style="display:flex;gap:12px;">
+      <button class="btn-primary" id="addPlaylistBtn">Add Playlist</button>
+      <button class="btn-outline" id="cancelEditBtn" style="display:none;">Cancel Edit</button>
+    </div>
+  </div>
+
+
+  <div class="panel" style="background: transparent; border: none; padding: 0; box-shadow: none;">
+    <h2>Scheduled Playlists</h2>
+    <div class="cards" id="cardsContainer">
+      <div class="empty">No playlists scheduled. Create one above to populate the timeline.</div>
+    </div>
+  </div>
+</div>
+
+<div class="now-playing-bar" id="nowPlayingBar">
+  <span class="playing-icon">▶</span>
+  <span class="track" id="nowPlayingTrack">—</span>
+  <button class="btn-outline btn-sm" id="pausePlayBtn">Pause</button>
+  <button class="btn-outline btn-sm" id="skipBtn">Skip</button>
+  <button class="btn-destructive btn-sm" id="stopBtn" style="color:var(--royal-red); border-color:var(--royal-red);">Stop</button>
+</div>
+
+<audio id="audioEl"></audio>
+<input type="file" id="addSongsInput" accept="audio/*" multiple style="display:none;">
+
+<script>
+(function(){
+  "use strict";
+
+  const DAY_NAMES = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+  let playlists = [];      
+  let selectedDays = new Set([1,2,3,4,5]); 
+  let pendingFiles = [];   
+  let editingId = null;    
+  let addSongsTargetId = null; 
+  let armed = false;
+
+  let currentlyPlaying = null; 
+  let playQueueIndex = 0;
+  let checkIntervalId = null;
+
+  const audioEl = document.getElementById('audioEl');
+
+  // Custom alert system replacement
+  function showAlert(msg) {
+    const toast = document.getElementById('toast');
+    toast.textContent = msg;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 3500);
+  }
+
+  // ---------- IndexedDB ----------
+  const DB_NAME = "onair_scheduler_royal";
+  const STORE = "playlists";
+  let db = null;
+
+  function openDB(){
+    return new Promise((resolve, reject) => {
+      const req = indexedDB.open(DB_NAME, 1);
+      req.onupgradeneeded = () => {
+        req.result.createObjectStore(STORE, { keyPath: "id" });
+      };
+      req.onsuccess = () => resolve(req.result);
+      req.onerror = () => reject(req.error);
+    });
+  }
+
+  async function persistPlaylist(pl){
+    if(!db) return;
+    const filesForStorage = await Promise.all(pl.files.map(async f => ({
+      id: f.id,
+      name: f.name,
+      blob: f.blob
+    })));
+    return new Promise((resolve, reject) => {
+      const tx = db.transaction(STORE, "readwrite");
+      tx.objectStore(STORE).put({
+        id: pl.id, name: pl.name, time: pl.time, days: pl.days,
+        lastTriggeredDate: pl.lastTriggeredDate, files: filesForStorage
+      });
+      tx.oncomplete = resolve;
+      tx.onerror = () => reject(tx.error);
+    });
+  }
+
+  async function deletePersisted(id){
+    if(!db) return;
+    return new Promise((resolve) => {
+      const tx = db.transaction(STORE, "readwrite");
+      tx.objectStore(STORE).delete(id);
+      tx.oncomplete = resolve;
+    });
+  }
+
+  async function loadPersisted(){
+    if(!db) return [];
+    return new Promise((resolve, reject) => {
+      const tx = db.transaction(STORE, "readonly");
+      const req = tx.objectStore(STORE).getAll();
+      req.onsuccess = () => resolve(req.result || []);
+      req.onerror = () => reject(req.error);
+    });
+  }
+
+  // ---------- utility ----------
+  function uid(){ return 'pl_' + Date.now() + '_' + Math.random().toString(36).slice(2,8); }
+  function todayStr(){ const d=new Date(); return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate(); }
+  function pad(n){ return String(n).padStart(2,'0'); }
+  function minutesOfDay(hhmm){
+    const [h,m] = hhmm.split(':').map(Number);
+    return h*60+m;
+  }
+
+  // ---------- clock + timeline ----------
+  function tickClock(){
+    const now = new Date();
+    document.getElementById('clockDisplay').textContent =
+      pad(now.getHours())+':'+pad(now.getMinutes())+':'+pad(now.getSeconds());
+    positionNowLine(now);
+  }
+
+  function positionNowLine(now){
+    const line = document.getElementById('nowLine');
+    if(!line) return;
+    const pct = ((now.getHours()*60+now.getMinutes())*60+now.getSeconds()) / 86400 * 100;
+    line.style.left = pct + '%';
+  }
+
+  function renderTimeline(){
+    const tl = document.getElementById('timeline');
+    tl.innerHTML = '';
+    // hour ticks
+    for(let h=0; h<24; h++){
+      const tick = document.createElement('div');
+      tick.className = 'tick';
+      tick.style.left = (h/24*100) + '%';
+      tl.appendChild(tick);
+      if(h % 3 === 0){
+        const lbl = document.createElement('div');
+        lbl.className = 'tick-label';
+        lbl.style.left = (h/24*100) + '%';
+        lbl.textContent = pad(h)+':00';
+        tl.appendChild(lbl);
+      }
+    }
+    // playlist slots
+    playlists.forEach(pl => {
+      const startMin = minutesOfDay(pl.time);
+      const pct = startMin/1440*100;
+      const slot = document.createElement('div');
+      slot.className = 'slot' + (currentlyPlaying === pl.id ? ' fired' : '');
+      slot.style.left = 'calc(' + pct + '% - 3px)';
+      slot.style.width = '46px';
+      const tip = document.createElement('div');
+      tip.className = 'slot-tip';
+      tip.textContent = pl.name + ' — ' + pl.time + ' (' + dayLabel(pl.days) + ')';
+      slot.appendChild(tip);
+      tl.appendChild(slot);
+    });
+    // now line
+    const nowLine = document.createElement('div');
+    nowLine.className = 'now-line';
+    nowLine.id = 'nowLine';
+    tl.appendChild(nowLine);
+    positionNowLine(new Date());
+  }
+
+  function dayLabel(days){
+    if(days.length === 7) return 'Every day';
+    const wd = [1,2,3,4,5];
+    if(days.length === 5 && wd.every(d => days.includes(d))) return 'Weekdays';
+    if(days.length === 2 && days.includes(0) && days.includes(6)) return 'Weekends';
+    return days.slice().sort().map(d => DAY_NAMES[d]).join(', ');
+  }
+
+  // ---------- day chip UI ----------
+  function renderDayChips(){
+    const wrap = document.getElementById('dayChips');
+    wrap.innerHTML = '';
+    DAY_NAMES.forEach((name, idx) => {
+      const chip = document.createElement('div');
+      chip.className = 'day-chip' + (selectedDays.has(idx) ? ' active' : '');
+      chip.textContent = name;
+      chip.onclick = () => {
+        if(selectedDays.has(idx)) selectedDays.delete(idx); else selectedDays.add(idx);
+        renderDayChips();
+      };
+      wrap.appendChild(chip);
+    });
+  }
+
+  // ---------- file staging & management ----------
+  document.getElementById('addSongsInput').onchange = async (e) => {
+    const newFiles = Array.from(e.target.files);
+    e.target.value = ''; 
+    if(!addSongsTargetId || newFiles.length === 0) return;
+
+    const pl = playlists.find(p => p.id === addSongsTargetId);
+    if(!pl) return;
+
+    const added = newFiles.map(f => ({
+      id: uid(),
+      name: f.name,
+      blob: f,
+      url: URL.createObjectURL(f)
+    }));
+    pl.files = pl.files.concat(added); 
+
+    await persistPlaylist(pl);
+    addSongsTargetId = null;
+    renderAll();
+    showAlert(`Added ${added.length} track(s) to ${pl.name}`);
+  };
+
+  async function removeTrack(playlistId, trackId){
+    const pl = playlists.find(p => p.id === playlistId);
+    if(!pl) return;
+
+    const track = pl.files.find(f => f.id === trackId);
+    if(!track) return;
+
+    if(currentlyPlaying === playlistId && pl.files[playQueueIndex] && pl.files[playQueueIndex].id === trackId){
+      stopPlayback();
+    }
+
+    pl.files = pl.files.filter(f => f.id !== trackId);
+    URL.revokeObjectURL(track.url);
+
+    await persistPlaylist(pl);
+    renderAll();
+  }
+
+  document.getElementById('fileDrop').onclick = () => document.getElementById('fileInput').click();
+  document.getElementById('fileInput').onchange = (e) => {
+    pendingFiles = Array.from(e.target.files);
+    renderFileList();
+  };
+  
+  function renderFileList(){
+    const list = document.getElementById('fileList');
+    if(pendingFiles.length === 0){ list.textContent = ''; return; }
+    list.innerHTML = pendingFiles.map(f => f.name).join('<br>');
+  }
+
+  // ---------- form actions ----------
+  document.getElementById('addPlaylistBtn').onclick = async () => {
+    const name = document.getElementById('plName').value.trim();
+    const time = document.getElementById('plTime').value;
+    
+    // Replaced alert() with custom showAlert()
+    if(!name){ showAlert('Please provide a name for the playlist.'); return; }
+    if(!time){ showAlert('Please set a scheduled start time.'); return; }
+    if(selectedDays.size === 0){ showAlert('Please select at least one active day.'); return; }
+
+    if(editingId){
+      const pl = playlists.find(p => p.id === editingId);
+      if(!pl) return;
+
+      const timeChanged = pl.time !== time;
+      pl.name = name;
+      pl.time = time;
+      pl.days = Array.from(selectedDays);
+      if(timeChanged) pl.lastTriggeredDate = null;
+
+      await persistPlaylist(pl);
+      exitEditMode();
+      renderAll();
+      showAlert('Playlist updated successfully.');
+      return;
+    }
+
+    if(pendingFiles.length === 0){ showAlert('Please attach at least one audio file.'); return; }
+
+    const files = pendingFiles.map(f => ({
+      id: uid(),
+      name: f.name,
+      blob: f,
+      url: URL.createObjectURL(f)
+    }));
+
+    const pl = {
+      id: uid(),
+      name,
+      time,
+      days: Array.from(selectedDays),
+      files,
+      lastTriggeredDate: null
+    };
+    playlists.push(pl);
+    await persistPlaylist(pl);
+
+    resetForm();
+    renderAll();
+    showAlert('Playlist scheduled successfully.');
+  };
+
+  document.getElementById('cancelEditBtn').onclick = () => exitEditMode();
+
+  function resetForm(){
+    document.getElementById('plName').value = '';
+    document.getElementById('plTime').value = '19:00';
+    pendingFiles = [];
+    document.getElementById('fileInput').value = '';
+    renderFileList();
+  }
+
+  function enterEditMode(pl){
+    editingId = pl.id;
+    document.getElementById('plName').value = pl.name;
+    document.getElementById('plTime').value = pl.time;
+    selectedDays = new Set(pl.days);
+    renderDayChips();
+    pendingFiles = [];
+    document.getElementById('fileInput').value = '';
+    renderFileList();
+    document.getElementById('fileFieldRow').style.display = 'none';
+    document.getElementById('editHint').style.display = 'flex';
+    document.getElementById('cancelEditBtn').style.display = 'inline-block';
+    document.getElementById('addPlaylistBtn').textContent = 'Save Changes';
+    document.querySelector('.panel h2').scrollIntoView({behavior:'smooth', block:'center'});
+  }
+
+  function exitEditMode(){
+    editingId = null;
+    document.getElementById('fileFieldRow').style.display = 'flex';
+    document.getElementById('editHint').style.display = 'none';
+    document.getElementById('cancelEditBtn').style.display = 'none';
+    document.getElementById('addPlaylistBtn').textContent = 'Add Playlist';
+    selectedDays = new Set([1,2,3,4,5]);
+    renderDayChips();
+    resetForm();
+  }
+
+  // ---------- render UI dynamically ----------
+  function renderCards(){
+    const container = document.getElementById('cardsContainer');
+    if(playlists.length === 0){
+      container.innerHTML = '<div class="empty">No playlists scheduled. Create one above to populate the timeline.</div>';
+      return;
+    }
+    container.innerHTML = '';
+    playlists
+      .slice()
+      .sort((a,b) => minutesOfDay(a.time) - minutesOfDay(b.time))
+      .forEach(pl => {
+        const card = document.createElement('div');
+        card.className = 'card' + (currentlyPlaying === pl.id ? ' playing' : '');
+        card.innerHTML = `
+          <div class="card-info">
+            <div class="card-name">${escapeHtml(pl.name)}</div>
+            <div class="card-meta">
+              <span class="badge">${pl.time}</span>
+              <span class="badge">${dayLabel(pl.days)}</span>
+              <span class="badge">${pl.files.length} track${pl.files.length===1?'':'s'}</span>
+              ${currentlyPlaying === pl.id ? '<span class="badge on-air">ON AIR</span>' : ''}
+            </div>
+          </div>
+          <div class="card-actions">
+            <button class="btn-outline btn-sm" data-action="play" data-id="${pl.id}" style="${currentlyPlaying===pl.id && !audioEl.paused ? 'display:none;' : ''}">▶ Play</button>
+            <button class="btn-outline btn-sm" data-action="pause" data-id="${pl.id}" style="${currentlyPlaying===pl.id && !audioEl.paused ? '' : 'display:none;'}">⏸ Pause</button>
+            <button class="btn-outline btn-sm" data-action="edit" data-id="${pl.id}">Edit</button>
+            <button class="btn-destructive btn-sm" data-action="delete" data-id="${pl.id}">Delete</button>
+          </div>
+          ${pl.files.length === 0
+            ? '<div class="track-empty">No tracks available. Add files below.</div>'
+            : `<div class="track-list">${pl.files.map(f => `
+                <div class="track-row">
+                  <span class="track-name">${escapeHtml(f.name)}</span>
+                  <button class="remove-track-btn" data-action="remove-track" data-playlist-id="${pl.id}" data-track-id="${f.id}">✕</button>
+                </div>
+              `).join('')}</div>`
+          }
+          <div class="card-actions" style="width:100%; justify-content:flex-end;">
+            <button class="btn-outline btn-sm add-songs-btn" data-action="add-songs" data-id="${pl.id}">+ Add Tracks</button>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+
+    // Event Listeners for generated buttons
+    container.querySelectorAll('[data-action="play"]').forEach(btn => {
+      btn.onclick = () => {
+        const id = btn.dataset.id;
+        if(currentlyPlaying === id && audioEl.paused){
+          resumePlayback();
+        } else {
+          startPlaylist(id, true);
+        }
+      };
+    });
+    container.querySelectorAll('[data-action="pause"]').forEach(btn => {
+      btn.onclick = () => pausePlayback();
+    });
+    container.querySelectorAll('[data-action="edit"]').forEach(btn => {
+      btn.onclick = () => {
+        const pl = playlists.find(p => p.id === btn.dataset.id);
+        if(pl) enterEditMode(pl);
+      };
+    });
+    container.querySelectorAll('[data-action="delete"]').forEach(btn => {
+      btn.onclick = async () => {
+        const id = btn.dataset.id;
+        if(currentlyPlaying === id) stopPlayback();
+        playlists = playlists.filter(p => p.id !== id);
+        await deletePersisted(id);
+        renderAll();
+      };
+    });
+    container.querySelectorAll('[data-action="remove-track"]').forEach(btn => {
+      btn.onclick = () => removeTrack(btn.dataset.playlistId, btn.dataset.trackId);
+    });
+    container.querySelectorAll('[data-action="add-songs"]').forEach(btn => {
+      btn.onclick = () => {
+        addSongsTargetId = btn.dataset.id;
+        document.getElementById('addSongsInput').click();
+      };
+    });
+  }
+
+  function escapeHtml(str){
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+  }
+
+  function renderAll(){
+    renderTimeline();
+    renderCards();
+  }
+
+  // ---------- core scheduling and playback ----------
+  document.getElementById('armBtn').onclick = async () => {
+    try{
+      audioEl.src = "data:audio/mpeg;base64,//uQxAAAAAAAAAAAAAAAAAAAAAAAWGluZwAAAA8AAAACAAACcQCA";
+      await audioEl.play();
+      audioEl.pause();
+      audioEl.currentTime = 0;
+    }catch(e){}
+
+    armed = true;
+    document.getElementById('armDot').classList.add('armed');
+    document.getElementById('armBtn').textContent = 'Scheduler Active';
+    document.getElementById('armBtn').disabled = true;
+    document.getElementById('armBtn').style.opacity = '0.5';
+
+    if(!checkIntervalId){
+      checkIntervalId = setInterval(checkSchedule, 15000);
+      checkSchedule();
+      showAlert('System armed. Playlists will now start automatically.');
+    }
+  };
+
+  function checkSchedule(){
+    if(!armed) return;
+    const now = new Date();
+    const dow = now.getDay();
+    const hhmm = pad(now.getHours())+':'+pad(now.getMinutes());
+    const today = todayStr();
+
+    playlists.forEach(pl => {
+      if(pl.days.includes(dow) && pl.time === hhmm && pl.lastTriggeredDate !== today){
+        pl.lastTriggeredDate = today;
+        persistPlaylist(pl);
+        startPlaylist(pl.id, false);
+      }
+    });
+  }
+
+  function startPlaylist(id, isPreview){
+    const pl = playlists.find(p => p.id === id);
+    if(!pl || pl.files.length === 0) return;
+    currentlyPlaying = pl.id;
+    playQueueIndex = 0;
+    playTrackAt(pl, playQueueIndex);
+    renderAll();
+  }
+
+  function playTrackAt(pl, idx){
+    if(idx >= pl.files.length){
+      stopPlayback();
+      return;
+    }
+    const track = pl.files[idx];
+    audioEl.src = track.url;
+    audioEl.play().catch(() => {
+      showAlert('Playback blocked — Please click Arm Scheduler.');
+    });
+    document.getElementById('nowPlayingBar').classList.add('show');
+    document.getElementById('nowPlayingTrack').textContent = pl.name + ' — ' + track.name;
+  }
+
+  audioEl.addEventListener('ended', () => {
+    if(!currentlyPlaying) return;
+    const pl = playlists.find(p => p.id === currentlyPlaying);
+    if(!pl) return;
+    playQueueIndex += 1;
+    playTrackAt(pl, playQueueIndex);
+  });
+
+  audioEl.addEventListener('play', () => {
+    document.getElementById('pausePlayBtn').textContent = 'Pause';
+    renderCards();
+  });
+  audioEl.addEventListener('pause', () => {
+    document.getElementById('pausePlayBtn').textContent = 'Resume';
+    renderCards();
+  });
+
+  function pausePlayback(){ audioEl.pause(); }
+
+  function resumePlayback(){
+    if(!currentlyPlaying) return;
+    audioEl.play().catch(() => {
+      showAlert('Playback blocked — Please click Arm Scheduler.');
+    });
+  }
+
+  function stopPlayback(){
+    audioEl.pause();
+    audioEl.src = '';
+    currentlyPlaying = null;
+    document.getElementById('nowPlayingBar').classList.remove('show');
+    renderAll();
+  }
+
+  document.getElementById('pausePlayBtn').onclick = () => {
+    if(audioEl.paused) resumePlayback(); else pausePlayback();
+  };
+  document.getElementById('skipBtn').onclick = () => {
+    if(!currentlyPlaying) return;
+    const pl = playlists.find(p => p.id === currentlyPlaying);
+    if(!pl) return;
+    playQueueIndex += 1;
+    playTrackAt(pl, playQueueIndex);
+  };
+  document.getElementById('stopBtn').onclick = stopPlayback;
+
+  // ---------- boot sequence ----------
+  async function init(){
+    renderDayChips();
+    setInterval(tickClock, 1000);
+    tickClock();
+
+    try{
+      db = await openDB();
+      const saved = await loadPersisted();
+      playlists = saved.map(row => ({
+        id: row.id,
+        name: row.name,
+        time: row.time,
+        days: row.days,
+        lastTriggeredDate: row.lastTriggeredDate,
+        files: row.files.map(f => ({ id: f.id || uid(), name: f.name, blob: f.blob, url: URL.createObjectURL(f.blob) }))
+      }));
+    }catch(e){
+      console.warn('Local persistence is unavailable.', e);
+    }
+
+    renderAll();
+  }
+
+  init();
+})();
+</script>
+
+</body>
+</html>
