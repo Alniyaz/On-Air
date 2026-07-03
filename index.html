@@ -425,6 +425,13 @@
         <label>Start Time</label>
         <input type="time" id="plTime" value="19:00">
       </div>
+      <!-- PER PLAYLIST LOOP OPTION -->
+      <div class="field" style="flex: 0 1 auto; justify-content: center; align-items: flex-start; padding-top: 20px;">
+        <label style="color:var(--text-cream); display:flex; align-items:center; gap: 8px; cursor:pointer; font-size: 12px; text-transform:none; font-weight: 500;">
+          <input type="checkbox" id="plLoop" style="accent-color: var(--royal-red); width: 16px; height: 16px; cursor:pointer;">
+          Loop Playlist
+        </label>
+      </div>
     </div>
     <div class="field-row">
       <div class="field" style="flex:1 0 100%;">
@@ -524,7 +531,8 @@
       const tx = db.transaction(STORE, "readwrite");
       tx.objectStore(STORE).put({
         id: pl.id, name: pl.name, time: pl.time, days: pl.days,
-        lastTriggeredDate: pl.lastTriggeredDate, files: filesForStorage
+        lastTriggeredDate: pl.lastTriggeredDate, files: filesForStorage,
+        loop: pl.loop // Persist the individual loop state
       });
       tx.oncomplete = resolve;
       tx.onerror = () => reject(tx.error);
@@ -694,6 +702,7 @@
   document.getElementById('addPlaylistBtn').onclick = async () => {
     const name = document.getElementById('plName').value.trim();
     const time = document.getElementById('plTime').value;
+    const loop = document.getElementById('plLoop').checked;
     
     // Replaced alert() with custom showAlert()
     if(!name){ showAlert('Please provide a name for the playlist.'); return; }
@@ -708,6 +717,7 @@
       pl.name = name;
       pl.time = time;
       pl.days = Array.from(selectedDays);
+      pl.loop = loop;
       if(timeChanged) pl.lastTriggeredDate = null;
 
       await persistPlaylist(pl);
@@ -731,6 +741,7 @@
       name,
       time,
       days: Array.from(selectedDays),
+      loop,
       files,
       lastTriggeredDate: null
     };
@@ -747,6 +758,7 @@
   function resetForm(){
     document.getElementById('plName').value = '';
     document.getElementById('plTime').value = '19:00';
+    document.getElementById('plLoop').checked = false;
     pendingFiles = [];
     document.getElementById('fileInput').value = '';
     renderFileList();
@@ -756,6 +768,7 @@
     editingId = pl.id;
     document.getElementById('plName').value = pl.name;
     document.getElementById('plTime').value = pl.time;
+    document.getElementById('plLoop').checked = !!pl.loop;
     selectedDays = new Set(pl.days);
     renderDayChips();
     pendingFiles = [];
@@ -800,6 +813,7 @@
               <span class="badge">${pl.time}</span>
               <span class="badge">${dayLabel(pl.days)}</span>
               <span class="badge">${pl.files.length} track${pl.files.length===1?'':'s'}</span>
+              <span class="badge" style="${pl.loop ? 'color: var(--royal-red); border-color: var(--royal-red);' : ''}">${pl.loop ? '🔁 Looping' : '▶️ Play Once'}</span>
               ${currentlyPlaying === pl.id ? '<span class="badge on-air">ON AIR</span>' : ''}
             </div>
           </div>
@@ -923,10 +937,16 @@
     renderAll();
   }
 
+  // PLAYBACK LOGIC WITH INDIVIDUAL PLAYLIST LOOPING CAPABILITY
   function playTrackAt(pl, idx){
     if(idx >= pl.files.length){
-      stopPlayback();
-      return;
+      if(pl.loop && pl.files.length > 0) {
+        playQueueIndex = 0;
+        idx = 0;
+      } else {
+        stopPlayback();
+        return;
+      }
     }
     const track = pl.files[idx];
     audioEl.src = track.url;
@@ -997,6 +1017,7 @@
         name: row.name,
         time: row.time,
         days: row.days,
+        loop: !!row.loop, // Retrieve individual loop setting
         lastTriggeredDate: row.lastTriggeredDate,
         files: row.files.map(f => ({ id: f.id || uid(), name: f.name, blob: f.blob, url: URL.createObjectURL(f.blob) }))
       }));
